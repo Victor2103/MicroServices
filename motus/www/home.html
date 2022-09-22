@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta lang="fr">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Motus</h1>
+    <h5>Bienvenue sur le jeu</h5>
+    <form id="guessForm" name="guessForm">
+        <input type="text" id="guess" name="guess">
+        <input type="submit">
+    </form>
+    <span id="response"></span>
+    <script>
+        jQuery("#guessForm").submit(function (e) {
+            e.preventDefault();
+            //alert(jQuery('#guess').val());
+            jQuery.get('/word', (word)=> {
+                var guess = jQuery('#guess').val();
+                var guessArray = guess.split('');
+                var wordArray = word.split('');
+                //console.log(guessArray);
+                for (let i = 0; i < guessArray.length; i++) {
+                    for (let j = 0; j < wordArray.length; j++) {
+                        if (guessArray[i] == wordArray[j] && i == j){
+                            jQuery("#response").append(guessArray[i])
+                        };
+                        
+                    }
+                    
+                }
+                /*jQuery.each(guessArray), function(index,value) {
+                    jQuery.each(wordArray), function(ind,val) {
+                       
+                    };
+                };*/
+            });
+        })
+    </script>
+</body>
+</html>

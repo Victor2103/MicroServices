@@ -3,10 +3,14 @@ const app = express()
 const port = 3000
 
 var fs = require('fs')
-var array = fs.readFileSync(__dirname+'/data/liste_francais_utf8.txt').toString().split("\n");
+var array = fs.readFileSync(__dirname+'/data/liste_francais_utf8.txt').toString().split("\n")
+var fichier = fs.readFileSync(__dirname+'/data/mot.json')
+var mot = JSON.parse(fichier)
+
+app.use(express.static('www'))
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.sendFile(__dirname+'/www/home.html')
 })
 
 app.listen(port, () => {
@@ -18,7 +22,8 @@ app.get('/word', (req,res)=>{
         res.send(array[req.query.id])
     }
     else {
-        res.send("page des mots")
+        res.send(array[mot.id])
         //console.log(array.length)
     }
 })
+
