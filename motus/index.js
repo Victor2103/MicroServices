@@ -14,5 +14,11 @@ app.listen(port, () => {
 })
 
 app.get('/word', (req,res)=>{
-    res.send(array[req.query.id])
+    if (req.query.id){
+        res.send(array[req.query.id])
+    }
+    else {
+        res.send("page des mots")
+        //console.log(array.length)
+    }
 })
