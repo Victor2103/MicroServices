@@ -1,0 +1,1 @@
+var array=load("data/liste_francais.txt")
