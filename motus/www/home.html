@@ -22,18 +22,14 @@
                 var wordArray = word.split('');
                 //console.log(guessArray);
                 for (let i = 0; i < guessArray.length; i++) {
-                    for (let j = 0; j < wordArray.length; j++) {
-                        if (guessArray[i] == wordArray[j] && i == j){
-                            jQuery("#response").append(guessArray[i])
-                        }
-                        else if (condition) {
-                            
-                        } else {
-                            
-                        }
-                        
+                    if (guessArray[i] == wordArray[j] && i == j){
+                        jQuery("#response").append(guessArray[i])
                     }
-                    
+                    else if (condition) {
+
+                    } else {
+                            
+                    }    
                 }
                 /*jQuery.each(guessArray), function(index,value) {
                     jQuery.each(wordArray), function(ind,val) {
