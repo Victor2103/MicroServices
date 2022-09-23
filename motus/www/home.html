@@ -1,43 +1,51 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta lang="fr">
     <link rel="stylesheet" href="home.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </head>
+
 <body>
-    <h1>Motus</h1>
-    <h5>Bienvenue sur le jeu</h5>
-    <form id="guessForm" name="guessForm">
-        <input type="text" id="guess" name="guess">
-        <input type="submit">
-    </form>
-    <span id="response"></span>
+    <div>
+        <div>
+            <h1>Motus</h1><br>
+        </div>
+        <div>
+            <form id="guessForm" name="guessForm">
+                <input type="text" id="guess" name="guess">
+                <input type="submit">
+            </form>
+        </div>
+        <div>
+            <p id="response"></p>
+        </div>
+    </div>
     <script>
         jQuery("#guessForm").submit(function (e) {
             e.preventDefault();
             //alert(jQuery('#guess').val());
-            jQuery.get('/word', (word)=> {
+            jQuery.get('/word', (word) => {
                 var guess = jQuery('#guess').val();
                 var guessArray = guess.split('');
                 var wordArray = word.split('');
                 //console.log(guessArray);
                 for (let i = 0; i < guessArray.length; i++) {
-                    if (guessArray[i] == wordArray[i]){
-                        jQuery("#response").append('<span class="guess green">'+guessArray[i]+'</span>')
+                    if (guessArray[i] == wordArray[i]) {
+                        jQuery("#response").append('<span class="guess green">' + guessArray[i] + '</span>')
                     }
                     else if (wordArray.includes(guessArray[i])) {
-                        jQuery("#response").append('<span class="guess orange">'+guessArray[i]+'</span>')
+                        jQuery("#response").append('<span class="guess orange">' + guessArray[i] + '</span>')
                     } else {
-                        jQuery("#response").append('<span class="guess red">'+guessArray[i]+'</span>')
-                    }    
+                        jQuery("#response").append('<span class="guess red">' + guessArray[i] + '</span>')
+                    }
                 }
-
+                jQuery("#response").append('<br>') 
             });
         })
     </script>
 </body>
+
 </html>
