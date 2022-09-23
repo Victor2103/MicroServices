@@ -1,0 +1,18 @@
+#response{
+    padding-top: 20px;
+}
+.guess{
+    font-size: large;
+    margin: 10px;
+    padding : 10px;
+    color : white;
+}
+.green{
+    background-color: green;
+}
+.orange{
+    background-color: orange;
+}
+.red{
+    background-color: red;
+}

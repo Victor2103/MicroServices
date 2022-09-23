@@ -1,8 +1,10 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000 
 
-var fs = require('fs')
+const os = require('os')
+const fs = require('fs')
+
 var array = fs.readFileSync(__dirname+'/data/liste_francais_utf8.txt').toString().split("\n")
 var fichier = fs.readFileSync(__dirname+'/data/mot.json')
 var mot = JSON.parse(fichier)
@@ -27,3 +29,6 @@ app.get('/word', (req,res)=>{
     }
 })
 
+app.get('/hostname', (req,res)=>{
+    res.send(os.hostname())
+})
