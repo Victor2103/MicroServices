@@ -1,6 +1,11 @@
 {
   "dependencies": {
     "express": "^4.18.1",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "package.json": "^2.0.1"
+  },
+  "scripts": {
+    "start": "node index.js"
   }
+  
 }

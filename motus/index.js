@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000 
+const router=express.Router();
+const os = require("os");
 var fs = require("fs");
 app.use(express.static("www"))
 var array = fs
@@ -48,6 +50,23 @@ app.get("/word", (req, res) => {
   const indicemotmystere = datecourante[1];
   res.send(array[indicemotmystere]);
 });
+
+router.get("/play:name",(req,res)=>{
+  console.log(req.params.name)
+  res.status(200).json({
+    name:req.params.name
+  })
+})
+
+
+app.get("/port",(req,res)=>{
+  res.status(200).json({
+    serveur : "Motus app working on : ",
+    hostname : os.hostname(),
+    port : port
+  })
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
