@@ -52,9 +52,9 @@ app.get("/word", (req, res) => {
 });
 
 router.get("/play",(req,res)=>{
-  console.log(req.params.name)
+  console.log(req.query.name)
   res.status(200).json({
-    name:req.params.name
+    name:req.query.name
   })
 })
 
