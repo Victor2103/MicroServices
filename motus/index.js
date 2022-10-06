@@ -29,6 +29,10 @@ app.get('/word', (req,res)=>{
     }
 })
 
+app.get('/score', (req, res)=>{
+  res.sendFile(__dirname+'/www/score.html')
+})
+
 app.get('/hostname', (req,res)=>{
     res.send(os.hostname())
 })
