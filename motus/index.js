@@ -52,10 +52,8 @@ app.get("/word", (req, res) => {
 });
 
 router.get("/play",(req,res)=>{
-  console.log(req.query.name)
-  res.status(200).json({
-    name:req.query.name
-  })
+  console.log(req.query.id);
+  res.send("It is ok")
 })
 
 
