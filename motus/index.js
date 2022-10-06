@@ -51,7 +51,7 @@ app.get("/word", (req, res) => {
   res.send(array[indicemotmystere]);
 });
 
-router.get("/play:name",(req,res)=>{
+router.get("/play",(req,res)=>{
   console.log(req.params.name)
   res.status(200).json({
     name:req.params.name
