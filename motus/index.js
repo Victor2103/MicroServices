@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000 
-const router=express.Router();
 const os = require("os");
 var fs = require("fs");
 app.use(express.static("www"))
@@ -51,9 +50,11 @@ app.get("/word", (req, res) => {
   res.send(array[indicemotmystere]);
 });
 
-router.get("/play",(req,res)=>{
-  console.log(req.query.id);
-  res.send("It is ok")
+app.get("/play",(req,res)=>{
+  console.log(req.query.name);
+  res.status(200).json({
+    name:req.query.name
+  })
 })
 
 
