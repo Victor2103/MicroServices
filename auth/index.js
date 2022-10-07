@@ -15,6 +15,7 @@ app.set('trust proxy', 1) // trust first proxy
 app.use(session({
   name: 'session',
   keys: ['key1', 'key2'],
+  user:undefined,
   cookie: {
     secure: true,
     httpOnly: true,
@@ -40,13 +41,14 @@ app.get('/cookie', function (req, res, next) {
   })
 })
 
-app.post("login.html",(req,res)=>{
-    if (req.query.login in list){
+app.post("/login.html",(req,res)=>{
+    if (req.body.login in list){
         res.status(402).json({
             erreur: "C'est une erreur"
         })
     }else {
         req.session.user=req.query.login
+        console.log("je suis ici")
     }
 })
 
