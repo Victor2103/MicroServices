@@ -5,7 +5,7 @@ const os = require("os");
 var fs = require("fs");
 app.use(express.static("www"))
 var array = fs
-  .readFileSync(__dirname + "/data/liste_francais.txt")
+  .readFileSync(__dirname + "/data/liste_francais_utf8.txt")
   .toString()
   .split("\n");
 
@@ -47,7 +47,9 @@ app.get("/word", (req, res) => {
   }
 
   const indicemotmystere = datecourante[1];
-  res.send(array[indicemotmystere]);
+  res.status(201).json({
+    word_of_the_day : array[indicemotmystere]
+  })
 });
 
 app.get("/play",(req,res)=>{
