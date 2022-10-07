@@ -2,9 +2,12 @@ const express = require("express");
 const app = express();
 const store = require("store2");
 const port = process.env.PORT ||4000 
-const path = require('path')
+const path = require('path');
+const session = require('cookie-session');
 
-app.use(express.static("www"))
+app.use(express.static("www"));
+
+
 
 app.get("/", (req, res) => {
     res.send("Hello World !");
