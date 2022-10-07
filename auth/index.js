@@ -2,8 +2,11 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT ||5000 ;
 const session = require('cookie-session');
+const path=require("path");
+var fs = require("fs");
+var list= ["test","test2"]
 
-
+app.use('/', express.static(path.join(__dirname, 'www')))
 
 const expiryDate = new Date(Date.now()+60*60) // 1 hour
 
@@ -37,9 +40,18 @@ app.get('/cookie', function (req, res, next) {
   })
 })
 
+app.post("login.html",(req,res)=>{
+    if (req.query.login in list){
+        res.status(402).json({
+            erreur: "C'est une erreur"
+        })
+    }else {
+        req.session.user=req.query.login
+    }
+})
 
 
-app.get("/cookie", (req, res) => {
+app.get("/", (req, res) => {
     res.send("Hello World !");
   });
 
