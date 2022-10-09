@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en-US">
-  <body>
-<h1>Please enter your login</h1>
-<form type="get">
-    <label for="login">Login </label><br>
-    <input type="text" id="login" name="login"><br>
-    <input type="submit" value="Submit">
-  </form> 
+<html>
+<head>
+</head>
+<body>
+    <form action="/user" method="post">
+        <h2>Login</h2>
+        <div class="input-field">
+            <input type="text" name="username" id="username" placeholder="Enter Username">
+        </div>
+        <div class="input-field">
+            <input type="password" name="password" id="password" placeholder="Enter Password">
+        </div>
+        <input type="submit" value="LogIn">
+    </form>
 </body>
 </html>

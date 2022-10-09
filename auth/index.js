@@ -1,37 +1,41 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT ||5000 ;
-const session = require('cookie-session');
+const cookieParser = require("cookie-parser");
+const sessions = require('express-session');
 const path=require("path");
-var fs = require("fs");
 var list= ["test","test2"]
 
 app.use('/', express.static(path.join(__dirname, 'www')))
+app.use(cookieParser());
+// parsing the incoming data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const expiryDate = new Date(Date.now()+60*60) // 1 hour
+//app.set('trust proxy', 1) // trust first proxy
 
-app.set('trust proxy', 1) // trust first proxy
+//username and password
+const myusername = 'user1'
+const mypassword = 'mypassword'
 
-app.use(session({
-  name: 'session',
-  keys: ['key1', 'key2'],
-  user:undefined,
-  cookie: {
-    secure: true,
-    httpOnly: true,
-    domain: 'localhost',
-    path: '/cookie',
-    expires: expiryDate
-  }
-}))
+// a variable to save a session
+var session;
 
-app.use((req,res,next)=>{
-    if(req.session.user){
-      next();
-    }else{
-      res.redirect("/login.html")
-    }
- })
+const oneDay = 1000 * 60 * 60 * 24;
+app.use(sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false 
+}));
+
+app.get("/",(req,res) => {
+  session=req.session;
+  if(session.userid){
+      res.send("Welcome User <a href=\'/logout'>click to logout</a>");
+  }else
+  res.sendFile('/login.html',{root:__dirname+"/www"})
+});
 
 app.get('/cookie', function (req, res, next) {
   // Update views
@@ -41,21 +45,25 @@ app.get('/cookie', function (req, res, next) {
   })
 })
 
-app.post("/login.html",(req,res)=>{
-    if (req.body.login in list){
-        res.status(402).json({
-            erreur: "C'est une erreur"
-        })
-    }else {
-        req.session.user=req.query.login
-        console.log("je suis ici")
-    }
+app.post('/user',(req,res) => {
+  if(req.body.username == myusername && req.body.password == mypassword){
+      session=req.session;
+      session.userid=req.body.username;
+      console.log(req.session)
+      res.send(`Hey there, welcome <a href=\'/logout'>click to logout</a>`);
+  }
+  else{
+      res.send('Invalid username or password');
+  }
 })
 
+app.get('/logout',(req,res) => {
+  req.session.destroy();
+  res.redirect('/');
+});
 
-app.get("/", (req, res) => {
-    res.send("Hello World !");
-  });
+
+
 
 
 app.listen(port, () => {
