@@ -18,6 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 const myusername = 'user1'
 const mypassword = 'mypassword'
 
+var listUtilisateur ;
+listUtilisateur=[myusername]
+
 // a variable to save a session
 var session;
 
@@ -29,13 +32,21 @@ app.use(sessions({
     resave: false 
 }));
 
-app.get("*",(req,res) => {
+
+
+
+app.get("*",(req,res,next) => {
   session=req.session;
-  if(session.userid){
-      res.send("Welcome User <a href=\'/logout'>click to logout</a>");
+  if ((session.userid) || (req.url=="/register")){
+      next();
   }else
   res.sendFile('/login.html',{root:__dirname+"/www"})
 });
+
+app.get("/",(req,res)=> {
+  res.send("Hey there, welcome <a href=\'/logout'>click to logout</a>")
+})
+
 
 app.get('/session', function (req, res, next) {
   // Update views
@@ -67,6 +78,19 @@ app.get('/logout',(req,res) => {
   req.session.destroy();
   res.redirect('/');
 });
+
+app.get("/register",(req,res)=>{
+  res.sendFile('/register.html',{root:__dirname+"/www"})
+})
+
+app.post("/test",(req,res)=>{
+  console.log(listUtilisateur)
+  if(req.body.username == listUtilisateur[0]){
+    res.status(201).json({
+      erreur:"username already exists !"
+    })
+  }
+})
 
 
 
