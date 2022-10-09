@@ -29,7 +29,7 @@ app.use(sessions({
     resave: false 
 }));
 
-app.get("/",(req,res) => {
+app.get("*",(req,res) => {
   session=req.session;
   if(session.userid){
       res.send("Welcome User <a href=\'/logout'>click to logout</a>");
@@ -55,7 +55,8 @@ app.post('/user',(req,res) => {
       session=req.session;
       session.userid=req.body.username;
       console.log(req.session)
-      res.send(`Hey there, welcome <a href=\'/logout'>click to logout</a>`);
+      res.redirect("http://localhost:3000/")
+      //res.send(`Hey there, welcome <a href=\'/logout'>click to logout</a>`);
   }
   else{
       res.send('Invalid username or password');
