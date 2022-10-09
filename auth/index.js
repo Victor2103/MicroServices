@@ -37,13 +37,18 @@ app.get("/",(req,res) => {
   res.sendFile('/login.html',{root:__dirname+"/www"})
 });
 
-app.get('/cookie', function (req, res, next) {
+app.get('/session', function (req, res, next) {
   // Update views
-  console.log(JSON.stringify(req.session.user))
-  res.status(201).json({
-    session : req.session
-  })
-})
+  session=req.session;
+  if(session.userid){
+    console.log(JSON.stringify(req.session.user))
+    res.status(201).json({
+      session : req.session
+    })
+  }else
+  res.redirect("/");
+});
+
 
 app.post('/user',(req,res) => {
   if(req.body.username == myusername && req.body.password == mypassword){
