@@ -78,6 +78,10 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/test", (req, res) => {
+  const test = list.filter((x) => {
+    x === req.body.username;
+  });
+  console.log(test);
   if (req.body.username == listUtilisateur[0]) {
     res.status(201).json({
       erreur: "username already exists !",
@@ -88,8 +92,6 @@ app.post("/test", (req, res) => {
       erreur: "Please enter the same password",
     });
   }
-  console.log(req.body.password);
-  console.log(req.body.password2);
   res.redirect("/");
 });
 
