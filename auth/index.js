@@ -6,7 +6,7 @@ const sessions = require("express-session");
 const path = require("path");
 const store = require("store2");
 var list = ["test", "test2"];
-store.set("user", { name: "hello" });
+store.set("user", { name: "hello", password: "test" });
 
 app.use("/", express.static(path.join(__dirname, "www")));
 app.use(cookieParser());
@@ -59,12 +59,18 @@ app.get("/session", function (req, res, next) {
 });
 
 app.post("/user", (req, res) => {
-  if (req.body.username == myusername && req.body.password == mypassword) {
+  var check = false;
+  store.each((value, key) => {
+    if (value === req.body.username && key.password === req.body.password) {
+      check = true;
+    }
+  });
+  if (check) {
     session = req.session;
     session.userid = req.body.username;
     console.log(req.session);
-    res.redirect("http://localhost:3000/");
-    //res.send(`Hey there, welcome <a href=\'/logout'>click to logout</a>`);
+    //res.redirect("http://localhost:3000/");
+    res.send(`Hey there, welcome <a href=\'/logout'>click to logout</a>`);
   } else {
     res.send("Invalid username or password");
   }
@@ -81,30 +87,33 @@ app.get("/register", (req, res) => {
 
 app.post("/test", (req, res) => {
   store.set("user", { name: "hello" });
-  store.each(function (value, key) {
-    console.log(value);
+  var check = false;
+  store.each((value, key) => {
     if (value === req.body.username) {
-      res.status(201).json({
-        erreur: "Username already is the database",
-      });
-    } else {
-      if (req.body.password != req.body.password2) {
-        res.status(201).json({
-          erreur: "Please enter the same password",
-        });
-      } else {
-        store.set(req.body.username, {
-          firstname: req.body.firstname,
-          lastname: req.body.lastname,
-          password: req.body.password,
-        });
-        console.log(store.get(req.body.username));
-        res.status(201).json({
-          message: "Vous pouvez vous connecter ",
-        });
-      }
+      check = true;
     }
   });
+  if (check) {
+    res.status(201).json({
+      erreur: "Il existe déjà cet username",
+    });
+  } else {
+    if (req.body.password != req.body.password2) {
+      res.status(201).json({
+        erreur: "Mauvais mot de passe pour cette session",
+      });
+    } else {
+      store.set(req.body.username, {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        password: req.body.password,
+      });
+      console.log(store.get(req.body.username));
+      res.status(201).json({
+        message: "Vous pouvez vous connecter ",
+      });
+    }
+  }
 });
 
 app.listen(port, () => {
