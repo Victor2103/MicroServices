@@ -4,7 +4,9 @@ const port = process.env.PORT || 5000;
 const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
 const path = require("path");
+const store = require("store2");
 var list = ["test", "test2"];
+store.set("user", { name: "hello" });
 
 app.use("/", express.static(path.join(__dirname, "www")));
 app.use(cookieParser());
@@ -78,23 +80,31 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/test", (req, res) => {
-  const test = list.filter((x) => {
-    return x === req.body.username;
-  });
-  if (test.length != 0) {
-    res.status(201).json({
-      erreur: "Username already is the database",
-    });
-  } else {
-    if (req.body.password != req.body.password2) {
+  store.set("user", { name: "hello" });
+  store.each(function (value, key) {
+    console.log(value);
+    if (value === req.body.username) {
       res.status(201).json({
-        erreur: "Please enter the same password",
+        erreur: "Username already is the database",
       });
     } else {
-      list.push(req.body.username);
-      res.redirect("/");
+      if (req.body.password != req.body.password2) {
+        res.status(201).json({
+          erreur: "Please enter the same password",
+        });
+      } else {
+        store.set(req.body.username, {
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          password: req.body.password,
+        });
+        console.log(store.get(req.body.username));
+        res.status(201).json({
+          message: "Vous pouvez vous connecter ",
+        });
+      }
     }
-  }
+  });
 });
 
 app.listen(port, () => {

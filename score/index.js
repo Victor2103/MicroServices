@@ -13,11 +13,14 @@ app.get("/", (req, res) => {
 app.get("/score", (req, res) => {
   // Setting store key and data
   store.set("user", { name: "Adam", age: 34 });
-  store.set("user2", { name: "user1", age: 35 });
+  store.set("user1", { name: "user1", age: 35 });
   store.each(function (value, key) {
     console.log(key, "==", value);
     console.log(typeof key);
     console.log(typeof value);
+  });
+  res.status(201).json({
+    ok: "ok",
   });
 });
 
