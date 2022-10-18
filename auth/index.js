@@ -79,20 +79,22 @@ app.get("/register", (req, res) => {
 
 app.post("/test", (req, res) => {
   const test = list.filter((x) => {
-    x === req.body.username;
+    return x === req.body.username;
   });
-  console.log(test);
-  if (req.body.username == listUtilisateur[0]) {
+  if (test.length != 0) {
     res.status(201).json({
-      erreur: "username already exists !",
+      erreur: "Username already is the database",
     });
+  } else {
+    if (req.body.password != req.body.password2) {
+      res.status(201).json({
+        erreur: "Please enter the same password",
+      });
+    } else {
+      list.push(req.body.username);
+      res.redirect("/");
+    }
   }
-  if (req.body.password != req.body.password2) {
-    res.status(201).json({
-      erreur: "Please enter the same password",
-    });
-  }
-  res.redirect("/");
 });
 
 app.listen(port, () => {
