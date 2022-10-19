@@ -3,6 +3,8 @@ version: '3.4'
 services:
   motus:
     image: motus
+    ports:
+      - 3000:3000
   auth:
     image: auth
     build:
