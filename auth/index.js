@@ -5,23 +5,12 @@ const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
 const path = require("path");
 const store = require("store2");
-var list = ["test", "test2"];
-store.set("user", { name: "hello", password: "test" });
+store.set("test", { firstname: "test", lastname: "test", password: "test" });
 
 app.use("/", express.static(path.join(__dirname, "www")));
 app.use(cookieParser());
-// parsing the incoming data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-//app.set('trust proxy', 1) // trust first proxy
-
-//username and password
-const myusername = "user1";
-const mypassword = "mypassword";
-
-var listUtilisateur;
-listUtilisateur = [myusername];
 
 // a variable to save a session
 var session;
