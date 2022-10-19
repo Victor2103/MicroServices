@@ -1,1 +1,5 @@
-node_modules
+http
+**/node_modules
+reverseProxy
+docker
+.vscode

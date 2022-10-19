@@ -1,0 +1,22 @@
+.container{
+    display: flex;
+    justify-content: center;
+}
+#response{
+    display: flex;
+    justify-content: space-evenly;
+}
+.guess{
+    font-size: large;
+    padding : 10px;
+    color : white;
+}
+.green{
+    background-color: green;
+}
+.orange{
+    background-color: orange;
+}
+.red{
+    background-color: red;
+}
