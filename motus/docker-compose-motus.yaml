@@ -1,6 +1,0 @@
-version: "2"
-services:
-  motus:
-    image: "motus"
-    ports:
-      - "3000:3000"
