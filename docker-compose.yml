@@ -7,9 +7,6 @@ services:
       - 3000:3000
   auth:
     image: auth
-    build:
-      context: auth
-      dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production
     ports:
