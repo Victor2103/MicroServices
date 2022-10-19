@@ -1,0 +1,27 @@
+{
+  "name": "score",
+  "version": "1.0.0",
+  "description": "calculate the score of the motus app",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm start",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Victor2103/MicroServices.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Victor2103/MicroServices/issues"
+  },
+  "homepage": "https://github.com/Victor2103/MicroServices#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "node-localstorage": "^2.2.1",
+    "nodemon": "^2.0.20",
+    "store": "^2.0.12",
+    "store2": "^2.14.2"
+  }
+}
