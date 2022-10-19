@@ -1,7 +1,15 @@
-version: '1.0'
+version: '3.4'
 
 services:
   motus:
     image: motus
+  auth:
+    image: auth
+    build:
+      context: auth
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
     ports:
-      - 3000:3000
+      - 5000:5000
+  
