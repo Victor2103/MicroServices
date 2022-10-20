@@ -3,3 +3,5 @@ http
 reverseProxy
 docker
 .vscode
+loki-config.yml
+promtail-config.yml

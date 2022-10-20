@@ -42,9 +42,16 @@ services:
   loki:
     image: grafana/loki
     container_name: loki
-    command: -config.file=/home/alexis/ING_3_IA/MicroServices/loki-config.yml
+    command: -config.file=/etc/loki/local-config.yaml
     ports:
       - 3100:3100
     restart: unless-stopped
+    networks:
+      - monitor-net
+  promtail:
+    image: grafana/promtail
+    volumes:
+      - /var/log:/var/log
+    command: -config.file=/etc/promtail/config.yml
     networks:
       - monitor-net

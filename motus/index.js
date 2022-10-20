@@ -51,11 +51,15 @@ function get_mot() {
   return mot
 }
 
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
+
 app.get('/', (req, res) => {
   Verification_mot();
   res.sendFile(__dirname+'/www/home.html')
   logger.info({ message: 'URL '+req.url , labels: { 'url': req.url, 'user':'test' } });
-  logger.debug({ message: 'test', labels: { 'key': 'value' } });
+  //logger.debug({ message: 'test', labels: { 'key': 'value' } });
 })
 
 app.get("/port",(req,res)=>{
@@ -64,11 +68,8 @@ app.get("/port",(req,res)=>{
     hostname : os.hostname(),
     port : port
   })
+  logger.info({ message: 'URL '+req.url , labels: { 'url': req.url, 'user':'test' } });
 })
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
 
 app.get('/word', (req,res)=>{
     if (req.query.id){
@@ -79,6 +80,7 @@ app.get('/word', (req,res)=>{
         res.send(array[mot.id])
         //console.log(array.length)
     }
+    logger.info({ message: 'URL '+req.url , labels: { 'url': req.url, 'user':'test' } });
 })
 
 
