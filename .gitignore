@@ -3,3 +3,4 @@ http
 reverseProxy
 docker
 .vscode
+.env
