@@ -7,8 +7,10 @@ const path = require("path");
 const store = require("store2");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: `${__dirname}/../.env` });
+const cors=require("cors");
+app.use(cors())
 store.set("test", { firstname: "test", lastname: "test", password: "test" });
-
+var session;
 app.use("/", express.static(path.join(__dirname, "www")));
 app.use(cookieParser());
 app.use(express.json());

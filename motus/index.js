@@ -6,25 +6,26 @@ var fs = require("fs");
 app.use(express.static("www"));
 const sessions = require("express-session");
 const jwt = require("jsonwebtoken");
-
+var session;
 require("dotenv").config({ path: `${__dirname}/../.env` });
+const cors=require("cors");
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origine", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,PATCH,DELETE");
-    return res.status(200).json({});
-  }
-  next();
-});
+app.use(cors())
 
 // Gestion of the token and middleware
 function authenticateToken(req, res, next) {
-  if (req.query.token == null) {
+  if (req.query.token) {
+    jwt.verify(req.query.token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      console.log(user);
+      if (err) {
+        return res.sendStatus(401);
+      }
+      session=req.session
+      req.user = user;
+      session.userid = user;
+      next();
+    });
+  }else {
     var redirectUri = req.protocol + "://" + req.get("host") + req.url;
     res
       .status(302)
@@ -34,22 +35,9 @@ function authenticateToken(req, res, next) {
           "&scope=motus_app&redirect_uri=" +
           redirectUri
       );
-  }
-
-  jwt.verify(req.query.token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    console.log(user);
-    if (err) {
-      return res.sendStatus(401);
-    }
-    req.user = user;
-    session.userid = user;
-    next();
-  });
+}
 }
 
-app.get("/api/me", authenticateToken, (req, res) => {
-  res.send(req.user);
-});
 
 var array = fs
   .readFileSync(__dirname + "/data/liste_francais_utf8.txt")
@@ -66,7 +54,7 @@ app.use(
     resave: false,
   })
 );
-
+/*
 app.get("*", authenticateToken, (req, res, next) => {
   session = req.session;
   if (session.userid) {
@@ -75,7 +63,7 @@ app.get("*", authenticateToken, (req, res, next) => {
       var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
       console.log(fullUrl)
       res.sendFile("/login.html", { root: __dirname + "/www" });
-    }*/ else {
+    }*/ /*else {
     var redirectUri = req.protocol + "://" + req.get("host") + req.url;
     res
       .status(302)
@@ -87,6 +75,7 @@ app.get("*", authenticateToken, (req, res, next) => {
       );
   }
 });
+*/
 
 function Verification_mot() {
   var fichier = fs.readFileSync(__dirname + "/data/mot.json");
@@ -114,19 +103,14 @@ function get_mot() {
   return mot;
 }
 
-app.get("*", (req, res, next) => {
-  session = req.session;
-  if (session.userid) {
-    next();
-  } else res.sendFile("/login.html", { root: __dirname + "/www" });
-});
 
-app.get("/", (req, res) => {
+
+app.get("/",authenticateToken, (req, res) => {
   Verification_mot();
   res.sendFile(__dirname + "/www/home.html");
 });
 
-app.get("/port", (req, res) => {
+app.get("/port", authenticateToken,(req, res) => {
   res.status(200).json({
     serveur: "Motus app working on : ",
     hostname: os.hostname(),
@@ -134,11 +118,9 @@ app.get("/port", (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
 
-app.get("/word", (req, res) => {
+
+app.get("/word",authenticateToken, (req, res) => {
   if (req.query.id) {
     res.send(array[req.query.id]);
   } else {
@@ -148,7 +130,7 @@ app.get("/word", (req, res) => {
   }
 });
 
-app.get("/score", (req, res) => {
+app.get("/score", authenticateToken,(req, res) => {
   res.sendFile(__dirname + "/www/score.html");
 });
 
@@ -166,4 +148,8 @@ app.use((error, req, res, next) => {
       message: error.message,
     },
   });
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
 });
