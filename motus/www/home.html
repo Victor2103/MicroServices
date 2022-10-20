@@ -1,51 +1,65 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta lang="fr">
-    <link rel="stylesheet" href="home.css">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta lang="fr" />
+    <link rel="stylesheet" href="home.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div>
-        <div>
-            <h1>Motus</h1><br>
-        </div>
-        <div>
-            <form id="guessForm" name="guessForm">
-                <input type="text" id="guess" name="guess">
-                <input type="submit">
-            </form>
-        </div>
-        <div>
-            <p id="response"></p>
-        </div>
+      <div>
+        <h1>Motus</h1>
+        <br />
+      </div>
+      <div>
+        <form id="guessForm" name="guessForm">
+          <input type="text" id="guess" name="guess" />
+          <input type="submit" />
+        </form>
+      </div>
+      <div>
+        <p id="response"></p>
+      </div>
     </div>
     <script>
-        jQuery("#guessForm").submit(function (e) {
-            e.preventDefault();
-            //alert(jQuery('#guess').val());
-            jQuery.get('/word', (word) => {
-                var guess = jQuery('#guess').val();
-                var guessArray = guess.split('');
-                var wordArray = word.split('');
-                //console.log(guessArray);
-                for (let i = 0; i < guessArray.length; i++) {
-                    if (guessArray[i] == wordArray[i]) {
-                        jQuery("#response").append('<span class="guess green">' + guessArray[i] + '</span>')
-                    }
-                    else if (wordArray.includes(guessArray[i])) {
-                        jQuery("#response").append('<span class="guess orange">' + guessArray[i] + '</span>')
-                    } else {
-                        jQuery("#response").append('<span class="guess red">' + guessArray[i] + '</span>')
-                    }
-                }
-                jQuery("#response").append('<br>') 
-            });
-        })
+      jQuery("#guessForm").submit(function (e) {
+        e.preventDefault();
+        //alert(jQuery('#guess').val());
+        jQuery.get("/word", (word) => {
+          var guess = jQuery("#guess").val();
+          var guessArray = guess.split("");
+          var wordArray = word.split("");
+          //console.log(guessArray);
+          for (let i = 0; i < guessArray.length; i++) {
+            if (guessArray[i] == wordArray[i]) {
+              jQuery("#response").append(
+                '<span class="guess green">' + guessArray[i] + "</span>"
+              );
+            } else if (wordArray.includes(guessArray[i])) {
+              jQuery("#response").append(
+                '<span class="guess orange">' + guessArray[i] + "</span>"
+              );
+            } else {
+              jQuery("#response").append(
+                '<span class="guess red">' + guessArray[i] + "</span>"
+              );
+            }
+          }
+          jQuery("#response").append("<br>");
+        });
+      });
     </script>
-</body>
-
+    <script>
+      var a = document.createElement("a");
+      var linkText = document.createTextNode("Voir mon score");
+      a.appendChild(linkText);
+      a.title = "Voir mon score";
+      var url = window.location.href;
+      var query = window.location.search;
+      a.href = "http://localhost:3000/score" + query;
+      document.body.appendChild(a);
+    </script>
+  </body>
 </html>
