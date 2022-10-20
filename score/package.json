@@ -4,7 +4,6 @@
   "description": "calculate the score of the motus app",
   "main": "index.js",
   "scripts": {
-    "test": "npm start",
     "start": "nodemon index.js"
   },
   "repository": {

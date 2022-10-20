@@ -4,3 +4,5 @@ reverseProxy
 docker
 .vscode
 .env
+loki-config.yml
+promtail-config.yml
