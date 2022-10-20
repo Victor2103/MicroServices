@@ -5,6 +5,7 @@ const os = require("os");
 var fs = require("fs");
 app.use(express.static("www"));
 const sessions = require("express-session");
+require("dotenv").config({ path: `${__dirname}/../.env` });
 
 //Handle the 404 error before send this to the localhost:5000
 
@@ -33,13 +34,12 @@ app.get("*", (req, res, next) => {
       console.log(fullUrl)
       res.sendFile("/login.html", { root: __dirname + "/www" });
     }*/ else {
-    var client_id = "PGv4V2jvbZRZSZ6";
     var redirectUri = req.protocol + "://" + req.get("host") + req.url;
     res
       .status(302)
       .redirect(
         "http://localhost:5000/authorize?client_id=" +
-          client_id +
+          process.env.CLIENT_ID +
           "&scope=motus_app&redirect_uri=" +
           redirectUri
       );

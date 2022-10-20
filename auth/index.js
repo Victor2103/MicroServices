@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
 const path = require("path");
 const store = require("store2");
+require("dotenv").config({ path: `${__dirname}/../.env` });
 store.set("test", { firstname: "test", lastname: "test", password: "test" });
 
 app.use("/", express.static(path.join(__dirname, "www")));
@@ -28,10 +29,13 @@ app.use(
 //Handle the 404 error and change the url with the /autorize route.
 app.get("*", (req, res, next) => {
   session = req.session;
-  if (req.query.client_id != "PGv4V2jvbZRZSZ6") {
+  if (req.query.client_id != process.env.CLIENT_ID) {
+    console.log("Probleme with the client id");
+
     res.status(403).send("Error 403 : non authorized");
   }
   if (req.query.scope != "motus_app") {
+    console.log("Probleme with the scope");
     res.status(403).send("Error 403 : Non authorized");
   }
   if (session.userid || req.url == "/register") {
