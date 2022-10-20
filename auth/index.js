@@ -27,6 +27,9 @@ app.use(
 
 app.get("*", (req, res, next) => {
   session = req.session;
+  if (req.query.client_id!="PGv4V2jvbZRZSZ6"){
+    res.status(403).send("Error 403 : non authorized")
+  }
   if (session.userid || req.url == "/register") {
     next();
   } else res.sendFile("/login.html", { root: __dirname + "/www" });
