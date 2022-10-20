@@ -25,10 +25,14 @@ app.use(
   })
 );
 
+//Handle the 404 error and change the url with the /autorize route.
 app.get("*", (req, res, next) => {
   session = req.session;
-  if (req.query.client_id!="PGv4V2jvbZRZSZ6"){
-    res.status(403).send("Error 403 : non authorized")
+  if (req.query.client_id != "PGv4V2jvbZRZSZ6") {
+    res.status(403).send("Error 403 : non authorized");
+  }
+  if (req.query.scope != "motus_app") {
+    res.status(403).send("Error 403 : Non authorized");
   }
   if (session.userid || req.url == "/register") {
     next();
@@ -50,7 +54,7 @@ app.get("/session", function (req, res, next) {
   } else res.redirect("/");
 });
 
-app.post("/user", (req, res) => {
+app.post("/authorize", (req, res) => {
   var check = false;
   store.each((value, key) => {
     if (value === req.body.username && key.password === req.body.password) {
@@ -60,7 +64,6 @@ app.post("/user", (req, res) => {
   if (check) {
     session = req.session;
     session.userid = req.body.username;
-    console.log(req.session);
     //res.redirect("http://localhost:3000/");
     res.send(`Hey there, welcome <a href=\'/logout'>click to logout</a>`);
   } else {

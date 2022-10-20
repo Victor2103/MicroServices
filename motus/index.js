@@ -6,42 +6,45 @@ var fs = require("fs");
 app.use(express.static("www"));
 const sessions = require("express-session");
 
-
+//Handle the 404 error before send this to the localhost:5000
 
 var array = fs
   .readFileSync(__dirname + "/data/liste_francais_utf8.txt")
   .toString()
   .split("\n");
 
-
 //Use express session to control the authentification
-  const oneDay = 1000 * 60 * 60 * 24;
-  app.use(
-    sessions({
-      secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-      saveUninitialized: true,
-      cookie: { maxAge: oneDay },
-      resave: false,
-    })
-  );
-  
-  app.get("*", (req, res, next) => {
-    session = req.session;
-    if (session.userid || req.url == "/register") {
-      next();
-    } /*else {
+const oneDay = 1000 * 60 * 60 * 24;
+app.use(
+  sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized: true,
+    cookie: { maxAge: oneDay },
+    resave: false,
+  })
+);
+
+app.get("*", (req, res, next) => {
+  session = req.session;
+  if (session.userid || req.url == "/register") {
+    next();
+  } /*else {
       var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
       console.log(fullUrl)
       res.sendFile("/login.html", { root: __dirname + "/www" });
-    }*/
-    else {
-      var client_id="PGv4V2jvbZRZSZ6";
-      var redirectUri=req.protocol + '://' + req.get('host') + req.originalUrl;
-      res.status(302).redirect("http://localhost:5000/authorize?client_id="+client_id+"&scope=motus_app&redirect_uri="+redirectUri)
-    }
-  });
-
-
+    }*/ else {
+    var client_id = "PGv4V2jvbZRZSZ6";
+    var redirectUri = req.protocol + "://" + req.get("host") + req.url;
+    res
+      .status(302)
+      .redirect(
+        "http://localhost:5000/authorize?client_id=" +
+          client_id +
+          "&scope=motus_app&redirect_uri=" +
+          redirectUri
+      );
+  }
+});
 
 function Verification_mot() {
   var fichier = fs.readFileSync(__dirname + "/data/mot.json");
