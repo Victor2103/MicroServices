@@ -14,6 +14,12 @@ Here are the links of the pratical work :
 
 [https://simongomezuniv.github.io/td_score](https://simongomezuniv.github.io/td_score)
 
+[https://simongomezuniv.github.io/td_oauth2](https://simongomezuniv.github.io/td_oauth2)
+
+[https://simongomezuniv.github.io/td_monitoring](https://simongomezuniv.github.io/td_monitoring)
+
+[https://simongomezuniv.github.io/assessment](https://simongomezuniv.github.io/assessment)
+
 # How it works ?
 
 To run the project, you have to install nodejs. Go on their website for further information. 
