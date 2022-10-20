@@ -121,7 +121,7 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
-app.get('/', (req, res) => {
+app.get('/', authenticateToken,(req, res) => {
   Verification_mot();
   res.sendFile(__dirname+'/www/home.html')
   logger.info({ message: 'URL '+req.url , labels: { 'url': req.url, 'user':'test' } });
