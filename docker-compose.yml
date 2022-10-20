@@ -42,6 +42,7 @@ services:
   loki:
     image: grafana/loki
     container_name: loki
+    command: -config.file=/home/alexis/ING_3_IA/MicroServices/loki-config.yml
     ports:
       - 3100:3100
     restart: unless-stopped
