@@ -5,9 +5,51 @@ const os = require("os");
 var fs = require("fs");
 app.use(express.static("www"));
 const sessions = require("express-session");
+const jwt = require("jsonwebtoken");
+
 require("dotenv").config({ path: `${__dirname}/../.env` });
 
-//Handle the 404 error before send this to the localhost:5000
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origine", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,PATCH,DELETE");
+    return res.status(200).json({});
+  }
+  next();
+});
+
+// Gestion of the token and middleware
+function authenticateToken(req, res, next) {
+  if (req.query.token == null) {
+    var redirectUri = req.protocol + "://" + req.get("host") + req.url;
+    res
+      .status(302)
+      .redirect(
+        "http://localhost:5000/authorize?client_id=" +
+          process.env.CLIENT_ID +
+          "&scope=motus_app&redirect_uri=" +
+          redirectUri
+      );
+  }
+
+  jwt.verify(req.query.token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    console.log(user);
+    if (err) {
+      return res.sendStatus(401);
+    }
+    req.user = user;
+    session.userid = user;
+    next();
+  });
+}
+
+app.get("/api/me", authenticateToken, (req, res) => {
+  res.send(req.user);
+});
 
 var array = fs
   .readFileSync(__dirname + "/data/liste_francais_utf8.txt")
@@ -25,9 +67,9 @@ app.use(
   })
 );
 
-app.get("*", (req, res, next) => {
+app.get("*", authenticateToken, (req, res, next) => {
   session = req.session;
-  if (session.userid || req.url == "/register") {
+  if (session.userid) {
     next();
   } /*else {
       var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -74,7 +116,7 @@ function get_mot() {
 
 app.get("*", (req, res, next) => {
   session = req.session;
-  if (session.userid || req.url == "/register") {
+  if (session.userid) {
     next();
   } else res.sendFile("/login.html", { root: __dirname + "/www" });
 });
@@ -108,4 +150,20 @@ app.get("/word", (req, res) => {
 
 app.get("/score", (req, res) => {
   res.sendFile(__dirname + "/www/score.html");
+});
+
+//Handle the 404 error before send this to the localhost:5000
+app.use((req, res, next) => {
+  const error = new Error("Page web non trouvé");
+  error.status = 404;
+  next(error);
+});
+
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.json({
+    error: {
+      message: error.message,
+    },
+  });
 });
