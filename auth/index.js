@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
 const path = require("path");
 const store = require("store2");
+const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: `${__dirname}/../.env` });
 store.set("test", { firstname: "test", lastname: "test", password: "test" });
 
@@ -26,17 +27,22 @@ app.use(
   })
 );
 
+function generateAccessToken(user) {
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "1800s",
+  });
+}
+
 //Handle the 404 error and change the url with the /autorize route.
+
 app.get("*", (req, res, next) => {
   session = req.session;
-  if (req.query.client_id != process.env.CLIENT_ID) {
-    console.log("Probleme with the client id");
-
+  if (
+    (req.query.client_id != process.env.CLIENT_ID) &
+    (req.query.scope != "motus_app")
+  ) {
+    console.log("Non authorized to go here");
     res.status(403).send("Error 403 : non authorized");
-  }
-  if (req.query.scope != "motus_app") {
-    console.log("Probleme with the scope");
-    res.status(403).send("Error 403 : Non authorized");
   }
   if (session.userid || req.url == "/register") {
     next();
@@ -68,8 +74,13 @@ app.post("/authorize", (req, res) => {
   if (check) {
     session = req.session;
     session.userid = req.body.username;
+    // Generate a token for the user
+    const access_token = generateAccessToken({ username: req.body.username });
+    console.log(access_token);
+    console.log(req.query.redirect_uri);
+    res.status(302).redirect(req.query.redirect_uri);
     //res.redirect("http://localhost:3000/");
-    res.send(`Hey there, welcome <a href=\'/logout'>click to logout</a>`);
+    //res.send(`Hey there, welcome <a href=\'/logout'>click to logout</a>`);
   } else {
     res.send("Invalid username or password");
   }
