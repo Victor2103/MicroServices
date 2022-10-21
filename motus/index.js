@@ -161,7 +161,6 @@ app.get("/score", authenticateToken, (req, res) => {
   res.sendFile(__dirname + "/www/score.html");
 });
 
-//Handle the 404 error before send this to the localhost:5000
 app.use((req, res, next) => {
   const error = new Error("Page web non trouvé");
   error.status = 404;
