@@ -58,7 +58,11 @@
       a.title = "Voir mon score";
       var url = window.location.href;
       var query = window.location.search;
-      a.href = "http://localhost:3000/score" + query;
+      if (url.includes(query)) {
+        a.href = "http://localhost:" + window.location.port + "/score" + query;
+      } else {
+        a.href = "http://localhost:" + window.location.port + "/score";
+      }
       document.body.appendChild(a);
     </script>
   </body>
