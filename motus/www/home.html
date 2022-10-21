@@ -9,27 +9,27 @@
   <body>
     <!-- Style en double car parfois <link rel="stylesheet" href="home.css" /> ne charge pas le css-->
     <style>
-      .container{
-          display: flex;
-          justify-content: center;
+      .container {
+        display: flex;
+        justify-content: center;
       }
-      #response{
-          display: flex;
-          justify-content: space-evenly;
+      #response {
+        display: flex;
+        justify-content: space-evenly;
       }
-      .guess{
-          font-size: large;
-          padding : 10px;
-          color : white;
+      .guess {
+        font-size: large;
+        padding: 10px;
+        color: white;
       }
-      .green{
-          background-color: green;
+      .green {
+        background-color: green;
       }
-      .orange{
-          background-color: orange;
+      .orange {
+        background-color: orange;
       }
-      .red{
-          background-color: red;
+      .red {
+        background-color: red;
       }
     </style>
     <div>
@@ -50,6 +50,7 @@
     <script>
       jQuery("#guessForm").submit(function (e) {
         e.preventDefault();
+        $.post("http://localhost:4000/score", (data = { token: "caca prout" }));
         //alert(jQuery('#guess').val());
         jQuery.get("/word", (word) => {
           var guess = jQuery("#guess").val();
