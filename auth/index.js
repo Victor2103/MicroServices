@@ -2,11 +2,10 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
 const cookieParser = require("cookie-parser");
-const sessions = require("express-session");
 const path = require("path");
 const store = require("store2");
 const jwt = require("jsonwebtoken");
-require("dotenv").config({ path: `${__dirname}/../.env` });
+require("dotenv").config();
 const cors=require("cors");
 app.use(cors())
 store.set("test", { firstname: "test", lastname: "test", password: "test" });
@@ -39,17 +38,6 @@ app.get("*", (req, res, next) => {
 
 app.get("/", (req, res) => {
   res.send("Hey there, welcome <a href='/logout'>click to logout</a>");
-});
-
-app.get("/session", function (req, res, next) {
-  // Update views
-  session = req.session;
-  if (session.userid) {
-    console.log(JSON.stringify(req.session.user));
-    res.status(201).json({
-      session: req.session,
-    });
-  } else res.redirect("/");
 });
 
 app.post("/authorize", (req, res) => {
