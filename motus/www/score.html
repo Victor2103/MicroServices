@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta lang="fr" />
+    <link rel="stylesheet" href="home.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
   <body>
     <table>
       <thead>
@@ -21,9 +27,9 @@
     </table>
   </body>
   <script>
-    jQuery().get('http://localhost:4000/', (data) =>{
-      //TODO récup score + nb tentative
-      //TODO append into score et nb tentative 
+    jQuery.get('http://localhost:4000/score', {username:"Alexis"}, data=>{
+      jQuery('#score').html(data.score);
+      jQuery('#nbTentative').html(data.nbTentative);
     });
   </script>
 </html>

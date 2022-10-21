@@ -4,7 +4,8 @@ const store = require("store2");
 const port = process.env.PORT || 4000;
 const path = require("path");
 const cors = require("cors");
-var userScore;
+var fs = require("fs");
+const { response } = require("express");
 
 var corsOptions = {
   origin: "http://localhost:8080",
@@ -20,22 +21,39 @@ app.get("/", (req, res) => {
 });
 
 app.get("/update", (req, res) => {
-  if (req.body.username) {
+  if (req.query.username) {
     var fichier = fs.readFileSync(__dirname + "/score.json");
     var all = JSON.parse(fichier);
-    all.array.forEach((element) => {
-      if (element.username === req.body.username) {
-        element.score = element.score += req.body.score;
+    all.forEach(element => {
+      if (element.username===req.query.username) {
+        element.score = element.score + req.query.score;
+        element.nbTentative = element.nbTentative + 1;
       }
     });
-    fs.writeFileSync(__dirname + "/score.json", all);
-    next();
-  } else {
-    res.send("non authorize");
+    let donnees = JSON.stringify(all);
+    fs.writeFileSync(__dirname + "/score.json", donnees);
+    res.send('ok')}
+  else{
+    res.send('error')
   }
 });
 
-app.get("/score", (req, res) => {});
+app.get("/score", (req, res) => {
+  if (req.query.username) {
+    var fichier = fs.readFileSync(__dirname + "/score.json");
+    var all = JSON.parse(fichier);
+    all.forEach(element => {
+      if (element.username===req.query.username) {
+        var reponse = element
+        res.send(reponse)
+      }
+    })
+    
+  }
+  else{
+    res.send('error')
+  }
+});
 
 app.use("/static", express.static(path.join(__dirname, "www")));
 

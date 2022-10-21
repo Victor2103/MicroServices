@@ -55,7 +55,7 @@
           nbTentative += 1;
         });
         //TODO post update score
-        $.post("http://localhost:4000/score" + window.location.search);
+        $.get("http://localhost:4000/update", {username:"Alexis",score:score});
       });
     </script>
     <script>
