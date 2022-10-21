@@ -2,7 +2,7 @@
 <html>
   <head> </head>
   <body>
-    <form action="/test" method="post">
+    <form method="post">
       <h2>Register</h2>
       <div class="input-field">
         <input
@@ -52,6 +52,20 @@
 
       <input type="submit" value="Register" />
     </form>
-    <a href="/login">Cliquer ici pour vous connecter !</a>
+    <script>
+      var a = document.createElement("a");
+      var linkText = document.createTextNode("Cliquer ici pour se connecter");
+      a.appendChild(linkText);
+      a.title = "Cliquer ici pour se connecter";
+      var url = window.location.href;
+      var query = window.location.search;
+      if (url.includes(query)) {
+        a.href =
+          "http://localhost:" + window.location.port + "/authorize" + query;
+      } else {
+        a.href = "http://localhost:" + window.location.port + "/authorize";
+      }
+      document.body.appendChild(a);
+    </script>
   </body>
 </html>

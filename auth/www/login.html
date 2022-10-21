@@ -24,6 +24,20 @@
       </div>
       <input type="submit" value="LogIn" />
     </form>
-    <a href="/register">Cliquer ici pour vous enregistrer !</a>
+    <script>
+      var a = document.createElement("a");
+      var linkText = document.createTextNode("Cliquez ici pour s'inscrire");
+      a.appendChild(linkText);
+      a.title = "Cliquez ici pour s'inscrire";
+      var url = window.location.href;
+      var query = window.location.search;
+      if (url.includes(query)) {
+        a.href =
+          "http://localhost:" + window.location.port + "/register" + query;
+      } else {
+        a.href = "http://localhost:" + window.location.port + "/register";
+      }
+      document.body.appendChild(a);
+    </script>
   </body>
 </html>
