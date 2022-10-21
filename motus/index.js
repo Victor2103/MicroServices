@@ -7,6 +7,8 @@ app.use(express.static("www"));
 const sessions = require("express-session");
 const jwt = require("jsonwebtoken");
 var session;
+const path = require("path");
+app.use("/", express.static(path.join(__dirname, "www")));
 require("dotenv").config();
 const cors = require("cors");
 

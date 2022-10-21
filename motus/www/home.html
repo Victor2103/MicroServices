@@ -6,8 +6,32 @@
     <link rel="stylesheet" href="home.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
-
   <body>
+    <!-- Style en double car parfois <link rel="stylesheet" href="home.css" /> ne charge pas le css-->
+    <style>
+      .container{
+          display: flex;
+          justify-content: center;
+      }
+      #response{
+          display: flex;
+          justify-content: space-evenly;
+      }
+      .guess{
+          font-size: large;
+          padding : 10px;
+          color : white;
+      }
+      .green{
+          background-color: green;
+      }
+      .orange{
+          background-color: orange;
+      }
+      .red{
+          background-color: red;
+      }
+    </style>
     <div>
       <div>
         <h1>Motus</h1>
