@@ -11,7 +11,6 @@ const path = require("path");
 app.use("/", express.static(path.join(__dirname, "www")));
 require("dotenv").config();
 const cors = require("cors");
-
 app.use(cors());
 
 // Gestion of the token and middleware
@@ -59,28 +58,7 @@ app.use(
     resave: false,
   })
 );
-/*
-app.get("*", authenticateToken, (req, res, next) => {
-  session = req.session;
-  if (session.userid) {
-    next();
-  } /*else {
-      var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-      console.log(fullUrl)
-      res.sendFile("/login.html", { root: __dirname + "/www" });
-    }*/ /*else {
-    var redirectUri = req.protocol + "://" + req.get("host") + req.url;
-    res
-      .status(302)
-      .redirect(
-        "http://localhost:5000/authorize?client_id=" +
-          process.env.CLIENT_ID +
-          "&scope=motus_app&redirect_uri=" +
-          redirectUri
-      );
-  }
-});
-*/
+
 //Loki pour les logs
 const loki_uri = process.env.LOKI || "http://127.0.0.1:3100";
 
@@ -136,11 +114,6 @@ app.get("/", authenticateToken, (req, res) => {
   //logger.debug({ message: 'test', labels: { 'key': 'value' } });
 });
 
-app.get("/", authenticateToken, (req, res) => {
-  Verification_mot();
-  res.sendFile(__dirname + "/www/home.html");
-});
-
 app.get("/port", authenticateToken, (req, res) => {
   res.status(200).json({
     serveur: "Motus app working on : ",
@@ -158,6 +131,21 @@ app.get("/word", authenticateToken, (req, res) => {
     //console.log(array.length)
   }
 });
+
+const client = require('prom-client');
+const defaultLabels = { serviceName: 'api-v1' };
+const register = client.register
+register.setDefaultLabels(defaultLabels);
+client.collectDefaultMetrics({register});
+
+app.get("/metrics",async (req,res)=> {
+  try {
+		res.set('Content-Type', register.contentType);
+		res.end(await register.metrics());
+	} catch (ex) {
+		res.status(500).end(ex);
+	}
+})
 
 app.get("/score", authenticateToken, (req, res) => {
   res.sendFile(__dirname + "/www/score.html");
