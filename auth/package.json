@@ -4,7 +4,8 @@
   "description": "the authentification for motus app",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "debug": "nodemon index.js"
   },
   "repository": {
     "type": "git",

@@ -50,6 +50,7 @@ function authenticateToken(req, res, next) {
   }
 }
 
+//array qui contient tout les mot
 var array = fs
   .readFileSync(__dirname + "/data/liste_francais_utf8.txt")
   .toString()
@@ -79,6 +80,7 @@ const options = {
   ],
 };
 const logger = createLogger(options);
+
 
 function Verification_mot() {
   var fichier = fs.readFileSync(__dirname + "/data/mot.json");
@@ -129,7 +131,7 @@ app.get("/port", authenticateToken, (req, res) => {
   });
 });
 
-app.get("/word", authenticateToken, (req, res) => {
+app.get("/word", (req, res) => {
   if (req.query.id) {
     res.send(array[req.query.id]);
   } else {
@@ -139,6 +141,7 @@ app.get("/word", authenticateToken, (req, res) => {
   }
 });
 
+//prometheus pour les metrics
 const client = require('prom-client');
 const defaultLabels = { serviceName: 'api-v1' };
 const register = client.register
@@ -154,10 +157,12 @@ app.get("/metrics",async (req,res)=> {
 	}
 })
 
+
 app.get("/score", authenticateToken, (req, res) => {
   res.sendFile(__dirname + "/www/score.html");
 });
 
+//Gestion des erreurs 
 app.use((req, res, next) => {
   const error = new Error("Page web non trouvé");
   error.status = 404;

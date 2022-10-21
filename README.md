@@ -1,45 +1,36 @@
 # Documentation Micro Services
 
-# Presentation
+## Presentation
 
 This application has to goal to play the game motus. The goal of the application is to guess a word. The user have a score for each word he guess and an average for the word he have. 
 
 The application is divided in two micro services. Each micro services is in one folder. There are two servers and the client can connect in both of the servers. The motus server is running on the port 3000 and the score server is running on the port 4000. The motus service permits to the user to play and the score server permits to the user to calculate his score every day and his average. 
 
-Here are the links of the pratical work : 
+Here are the link of the pratical work : 
 
-[https://simongomezuniv.github.io/td2_NODE](https://simongomezuniv.github.io/td2_NODE)
+[https://simongomezuniv.github.io/](https://simongomezuniv.github.io/)
 
-[https://simongomezuniv.github.io/td_rtfm](https://simongomezuniv.github.io/td_rtfm)
-
-[https://simongomezuniv.github.io/td_score](https://simongomezuniv.github.io/td_score)
-
-[https://simongomezuniv.github.io/td_oauth2](https://simongomezuniv.github.io/td_oauth2)
-
-[https://simongomezuniv.github.io/td_monitoring](https://simongomezuniv.github.io/td_monitoring)
+And here the link of the assement :
 
 [https://simongomezuniv.github.io/assessment](https://simongomezuniv.github.io/assessment)
 
-# How it works ?
+## How it works ?
+ 
+Download the github repository, open a terminal at the root of the project. Run the following commands : 
 
-To run the project, you have to install nodejs. Go on their website for further information. 
+``` docker compose -f "docker-compose.yml" up -d --build ```
 
-Once you clone the github repository, open two terminals at the root of the project. Run the following commands in the first terminal : 
+### Game
+Now, you can go into [http://localhost:8080](http://localhost:8080/) Who will redirect you to the auth [http://localhost:5000](http://localhost:5000/) if u are not identified. The port [http://localhost:4000](http://localhost:4000/) is also working for the service score, it's an api, so it's show nothing but communicate with the motus app.  
 
-```bash
-cd motus/
-npm install 
-npm start
-```
+### Logs
+You can also go into [http://localhost:3000/](http://localhost:3000/) for Grafana. 
+We also have implemented loki [http://localhost:3100/](http://localhost:3100/) (no user interface)
 
-In the other terminal, run : 
-```bash
-cd score/
-npm install 
-npm start
-```
+### Metrics
+You can also go into [http://localhost:9090/](http://localhost:9090/) for Prometheus. 
+[http://localhost:9100/](http://localhost:9100/) or [http://localhost:8080/metrics](http://localhost:8080/metrics) for metrics. 
 
-Now, you can go into [http://localhost:3001](http://localhost:3001/)/. You can also go into [http://localhost:3000/](http://localhost:3000/). Both go into the same adress because we use a reverse proxy. The Url  [http://localhost:4000](http://localhost:4000/) is also working for the service score of the app.  
 
 # Sequence diagram
 
