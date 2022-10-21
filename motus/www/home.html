@@ -27,6 +27,7 @@
       var score = 0;
       jQuery("#guessForm").submit(function (e) {
         e.preventDefault();
+        $.post("http://localhost:4000/score", (data = { token: "caca prout" }));
         //alert(jQuery('#guess').val());
         jQuery.get("/word", (word) => {
           var guess = jQuery("#guess").val();

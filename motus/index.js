@@ -24,10 +24,17 @@ function authenticateToken(req, res, next) {
         if (err) {
           return res.sendStatus(401);
         }
-        session = req.session;
-        req.user = user;
+        else {
+          session = req.session;
+          console.log(session);
+          if (session.userid){
+            next();
+          } else {
+            req.user = user;
         session.userid = user;
         next();
+          }
+        }        
       }
     );
   } else {
