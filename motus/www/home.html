@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta lang="fr" />
+    <link rel="stylesheet" href="home.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <h1>Motus</h1>
+        <br />
+      </div>
+      <div>
+        <form id="guessForm" name="guessForm">
+          <input type="text" id="guess" name="guess" />
+          <input type="submit" />
+        </form>
+      </div>
+      <div id="response"></div>
+    </div>
+    <script>
+      var nbTentative = 0;
+      var score = 0;
+      jQuery("#guessForm").submit(function (e) {
+        e.preventDefault();
+
+        //alert(jQuery('#guess').val());
+        jQuery.get("/word", (word) => {
+          var guess = jQuery("#guess").val();
+          var guessArray = guess.split("");
+          var wordArray = word.split("");
+          //console.log(guessArray);
+          $('<p id="rep' + nbTentative + '"></p>').appendTo("#response");
+          for (let i = 0; i < guessArray.length; i++) {
+            if (guessArray[i] == wordArray[i]) {
+              jQuery("#rep" + nbTentative).append(
+                '<span class="guess green">' + guessArray[i] + "</span>"
+              );
+              score += 2;
+            } else if (wordArray.includes(guessArray[i])) {
+              jQuery("#rep" + nbTentative).append(
+                '<span class="guess orange">' + guessArray[i] + "</span>"
+              );
+              score += 1;
+            } else {
+              jQuery("#rep" + nbTentative).append(
+                '<span class="guess red">' + guessArray[i] + "</span>"
+              );
+              score += 0;
+            }
+          }
+          $("<br>").appendTo("#response");
+          nbTentative += 1;
+        });
+        //TODO post update score
+        $.get("http://localhost:4000/update", {username:"Alexis",score:score});
+      });
+    </script>
+    <script>
+      var a = document.createElement("a");
+      var linkText = document.createTextNode("Voir mon score");
+      a.appendChild(linkText);
+      a.title = "Voir mon score";
+      var url = window.location.href;
+      var query = window.location.search;
+      if (url.includes(query)) {
+        a.href = "http://localhost:" + window.location.port + "/score" + query;
+      } else {
+        a.href = "http://localhost:" + window.location.port + "/score";
+      }
+      document.body.appendChild(a);
+    </script>
+  </body>
+</html>

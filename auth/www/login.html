@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <form method="post">
+      <h2>Login</h2>
+      <div class="input-field">
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Enter Username"
+          required
+        />
+      </div>
+      <div class="input-field">
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Enter Password"
+          required
+        />
+      </div>
+      <input type="submit" value="LogIn" />
+    </form>
+    <script>
+      var a = document.createElement("a");
+      var linkText = document.createTextNode("Cliquez ici pour s'inscrire");
+      a.appendChild(linkText);
+      a.title = "Cliquez ici pour s'inscrire";
+      var url = window.location.href;
+      var query = window.location.search;
+      if (url.includes(query)) {
+        a.href =
+          "http://localhost:" + window.location.port + "/register" + query;
+      } else {
+        a.href = "http://localhost:" + window.location.port + "/register";
+      }
+      document.body.appendChild(a);
+    </script>
+  </body>
+</html>
