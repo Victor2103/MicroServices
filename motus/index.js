@@ -124,7 +124,7 @@ app.get("/port", authenticateToken, (req, res) => {
   });
 });
 
-app.get("/word", authenticateToken, (req, res) => {
+app.get("/word", (req, res) => {
   if (req.query.id) {
     res.send(array[req.query.id]);
   } else {

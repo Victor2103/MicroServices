@@ -7,32 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
-    <!-- Style en double car parfois <link rel="stylesheet" href="home.css" /> ne charge pas le css-->
-    <style>
-      .container{
-          display: flex;
-          justify-content: center;
-      }
-      #response{
-          display: flex;
-          justify-content: space-evenly;
-      }
-      .guess{
-          font-size: large;
-          padding : 10px;
-          color : white;
-      }
-      .green{
-          background-color: green;
-      }
-      .orange{
-          background-color: orange;
-      }
-      .red{
-          background-color: red;
-      }
-    </style>
-    <div>
+    <div class="container">
       <div>
         <h1>Motus</h1>
         <br />
@@ -43,11 +18,13 @@
           <input type="submit" />
         </form>
       </div>
-      <div>
-        <p id="response"></p>
+      <div id="response">
+        
       </div>
     </div>
     <script>
+      var nbTentative = 0;
+      var score = 0;
       jQuery("#guessForm").submit(function (e) {
         e.preventDefault();
         //alert(jQuery('#guess').val());
@@ -56,23 +33,29 @@
           var guessArray = guess.split("");
           var wordArray = word.split("");
           //console.log(guessArray);
+          $( '<p id="rep'+nbTentative+'"></p>' ).appendTo( "#response" );
           for (let i = 0; i < guessArray.length; i++) {
             if (guessArray[i] == wordArray[i]) {
-              jQuery("#response").append(
+              jQuery("#rep"+nbTentative).append(
                 '<span class="guess green">' + guessArray[i] + "</span>"
               );
+              score += 2;
             } else if (wordArray.includes(guessArray[i])) {
-              jQuery("#response").append(
+              jQuery("#rep"+nbTentative).append(
                 '<span class="guess orange">' + guessArray[i] + "</span>"
               );
+              score += 1;
             } else {
-              jQuery("#response").append(
+              jQuery("#rep"+nbTentative).append(
                 '<span class="guess red">' + guessArray[i] + "</span>"
               );
+              score += 0;
             }
           }
-          jQuery("#response").append("<br>");
+          $('<br>').appendTo( "#response" );
+          nbTentative += 1;
         });
+        //TODO post update score
       });
     </script>
     <script>

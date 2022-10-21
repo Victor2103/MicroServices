@@ -1,6 +1,6 @@
 # Documentation Micro Services
 
-# Presentation
+## Presentation
 
 This application has to goal to play the game motus. The goal of the application is to guess a word. The user have a score for each word he guess and an average for the word he have. 
 
@@ -10,26 +10,26 @@ Here are the link of the pratical work :
 
 [https://simongomezuniv.github.io/](https://simongomezuniv.github.io/)
 
-And here the link of the assement
+And here the link of the assement :
 
 [https://simongomezuniv.github.io/assessment](https://simongomezuniv.github.io/assessment)
 
-# How it works ?
-
-To run the project, you have to install nodejs. Go on their website for further information. 
-
-Once you clone the github repository, open a terminal at the root of the project. Run the following commands : 
+## How it works ?
+ 
+Download the github repository, open a terminal at the root of the project. Run the following commands : 
 
 ``` docker compose -f "docker-compose.yml" up -d --build ```
 
 ### Game
-Now, you can go into [http://localhost:8080](http://localhost:8080/) Who will redirect you to the auth [http://localhost:5000](http://localhost:5000/) if u are not identified. The port [http://localhost:4000](http://localhost:4000/) is also working for the service score of the app but it's an api so it's show nothing.  
+Now, you can go into [http://localhost:8080](http://localhost:8080/) Who will redirect you to the auth [http://localhost:5000](http://localhost:5000/) if u are not identified. The port [http://localhost:4000](http://localhost:4000/) is also working for the service score, it's an api, so it's show nothing but communicate with the motus app.  
+
+### Logs
+You can also go into [http://localhost:3000/](http://localhost:3000/) for Grafana. 
+We also have implemented loki [http://localhost:3100/](http://localhost:3100/) (no user interface)
 
 ### Metrics
-You can also go into [http://localhost:3000/](http://localhost:3000/) for Grafana. 
-[http://localhost:9090/](http://localhost:9090/) for Prometheus. 
-
-[http://localhost:9100/](http://localhost:9100/) or [http://localhost:8080/metrics](http://localhost:8080/metrics)for metrics. 
+You can also go into [http://localhost:9090/](http://localhost:9090/) for Prometheus. 
+[http://localhost:9100/](http://localhost:9100/) or [http://localhost:8080/metrics](http://localhost:8080/metrics) for metrics. 
 
 
 # Sequence diagram
