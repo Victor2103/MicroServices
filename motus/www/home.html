@@ -18,45 +18,44 @@
           <input type="submit" />
         </form>
       </div>
-      <div id="response">
-        
-      </div>
+      <div id="response"></div>
     </div>
     <script>
       var nbTentative = 0;
       var score = 0;
       jQuery("#guessForm").submit(function (e) {
         e.preventDefault();
-        $.post("http://localhost:4000/score", (data = { token: "caca prout" }));
+
         //alert(jQuery('#guess').val());
         jQuery.get("/word", (word) => {
           var guess = jQuery("#guess").val();
           var guessArray = guess.split("");
           var wordArray = word.split("");
           //console.log(guessArray);
-          $( '<p id="rep'+nbTentative+'"></p>' ).appendTo( "#response" );
+          $('<p id="rep' + nbTentative + '"></p>').appendTo("#response");
           for (let i = 0; i < guessArray.length; i++) {
             if (guessArray[i] == wordArray[i]) {
-              jQuery("#rep"+nbTentative).append(
+              jQuery("#rep" + nbTentative).append(
                 '<span class="guess green">' + guessArray[i] + "</span>"
               );
               score += 2;
             } else if (wordArray.includes(guessArray[i])) {
-              jQuery("#rep"+nbTentative).append(
+              jQuery("#rep" + nbTentative).append(
                 '<span class="guess orange">' + guessArray[i] + "</span>"
               );
               score += 1;
             } else {
-              jQuery("#rep"+nbTentative).append(
+              jQuery("#rep" + nbTentative).append(
                 '<span class="guess red">' + guessArray[i] + "</span>"
               );
               score += 0;
             }
           }
-          $('<br>').appendTo( "#response" );
+          $("<br>").appendTo("#response");
           nbTentative += 1;
         });
         //TODO post update score
+        $.post("http://localhost:4000/score" + window.location.search);
       });
     </script>
     <script>
