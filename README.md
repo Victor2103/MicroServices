@@ -21,7 +21,7 @@ Download the github repository, open a terminal at the root of the project. Run 
 ``` docker compose -f "docker-compose.yml" up -d --build ```
 
 ### Game
-Now, you can go into [http://localhost:8080](http://localhost:8080/) Who will redirect you to the auth [http://localhost:5000](http://localhost:5000/) if u are not identified. The port [http://localhost:4000](http://localhost:4000/) is also working for the service score, it's an api, so it's show nothing but communicate with the motus app.  
+Now, you can go into [http://localhost:8080](http://localhost:8080/) Who will redirect you to the auth [http://localhost:5000](http://localhost:5000/) if u are not identified, plus if the register won't work, you can use (test, test) to connect. The port [http://localhost:4000](http://localhost:4000/) is also working for the service score, it's an api, so it's show nothing but communicate with the motus app.  
 
 ### Logs
 You can also go into [http://localhost:3000/](http://localhost:3000/) for Grafana. 
